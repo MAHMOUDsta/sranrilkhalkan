@@ -99,7 +99,7 @@ input.addEventListener('keydown', function (e) {
 const vowel_char = "aiu";
 const cons_char  = "ptkbdgmnlrszN";
 const punct = " .;-#0123456789"
-const cons_final = new Set(["n","m","ng","p","t","k","l","N","ng"]);
+const cons_final = new Set(["n","m","ng","p","t","k","l","N"]);
 const cons_digraph = new Set(["ph","th","kh","bv","dv","gv","sr","zr","ts","dz","ge","ke","po","to","ko","bo","do","go","ng"]);
 
 function Normalize(s) {
@@ -130,11 +130,11 @@ function Render(smth) {
             return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
         }
         else if (boxes[i]["kind"]=="C") {
-            if (boxes[j]["kind"]=="C"&&boxes[k]["kind"]=="C") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
-            if (boxes[i]["text"]=="ng"&&boxes[j]["kind"]=="V"&&boxes[k]["kind"]=="V") {
+            if (i!=boxes.length-1&&i!=0) if (boxes[j]["kind"]=="C"&&boxes[k]["kind"]=="C") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            if (i!=boxes.length-1) if (boxes[i]["text"]=="ng"&&boxes[k]["kind"]=="V"&&boxes[j]["kind"]=="V") {
                 boxes[i]["text"]="n";boxes.splice(j,0,{ text: "g", kind: "C"});
             }
-            if (boxes[i]==boxes[boxes.length-1]&&boxes[k]["kind"]=="V") {
+            if (i==boxes.length-1) {
                 if (cons_final.has(boxes[i]["text"])) boxes[i]["text"]+="_";
                 else return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
             }
@@ -152,7 +152,6 @@ function Render(smth) {
             Vowel(boxes[i]["text"]);
         }
         else if (boxes[i]["kind"]=="P") {
-            if (i!=boxes.length-1) if (boxes[j]["kind"]=="P") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
             boxes[i]["text"]=boxes[i]["text"].replace(" ","dotOne").replace("-","dotJoin").replace(";","dotTwo").replace(".","dotThree").replace("#","duplicate");
             boxes[i]["text"]=boxes[i]["text"].replace("0","nZero").replace("1","nOne").replace("2","nTwo").replace("3","nThree").replace("4","nFour").replace("5","nFive").replace("6","nSix").replace("7","nSeven").replace("8","nEight").replace("9","nNine")
             Punct(boxes[i]["text"]);
