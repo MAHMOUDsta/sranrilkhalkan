@@ -8,7 +8,7 @@
     </head>
 <body>
 <div id="div"></div>
-<div>
+<div id="kb">
 <button onclick="Char(`p_`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#p_"/></svg></button>
 <button onclick="Char(`t_`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#t_"/></svg></button>
 <button onclick="Char(`k_`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#k_"/></svg></button>
@@ -23,7 +23,8 @@
 <span style="margin:10px;"></span>
 <span style="position: relative;">
   <button onclick="Del()" style="font-size: x-large;position: absolute;">Backspace</button>
-  <button onclick="Clear()" style="font-size: x-large;position: absolute;bottom:1px;">Clear</button>
+  <button onclick="Clear()" style="font-size: x-large;position: absolute;bottom:0px;">Clear</button>
+  <button onclick="txt()" style="font-size: x-large;position: absolute;top:50px;">Switch to text</button>
 </span>
 <br><br>
 <button onclick="Char(`p`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#p"/></svg></button>
@@ -85,6 +86,12 @@
 <button onclick="Punct(`nSeven`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#nSeven"/></svg></button>
 <button onclick="Punct(`nEight`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#nEight"/></svg></button>
 <button onclick="Punct(`nNine`)"><svg width="70" height="100" viewBox="0 0 6.9999996 9.9999996"><use href="#nNine"/></svg></button>
+</div>
+<div id="txt" style="display: none;">
+  <span style="margin:40px;"></span>
+  <input style="font-size: x-large;margin-top:20px;" type="text" id="input"></input>
+  <span style="margin:20px;"></span>
+  <button onclick="kb()" style="font-size: x-large;">Switch to keyboard</button>
 </div>
 <br><br><br><br><svg>
         <defs>
@@ -276,7 +283,7 @@
        d="M 4,6.5 A 0.499999,0.49999997 0 0 1 3.500001,7 0.499999,0.49999997 0 0 1 3.000002,6.5 0.499999,0.49999997 0 0 1 3.500001,6 0.499999,0.49999997 0 0 1 4,6.5 Z m 0,-3 A 0.499999,0.49999997 0 0 1 3.500001,4 0.499999,0.49999997 0 0 1 3.000002,3.5 0.499999,0.49999997 0 0 1 3.500001,3 0.499999,0.49999997 0 0 1 4,3.5 Z" />
        <path id="dotThree" style="display:inline;stroke:#000000;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round"
        d="M 4.9999999,5 A 0.49999899,0.49999997 0 0 1 4.500001,5.5 0.49999899,0.49999997 0 0 1 4.000002,5 0.49999899,0.49999997 0 0 1 4.500001,4.5 0.49999899,0.49999997 0 0 1 4.9999999,5 Z M 2.499996,6.5 A 0.49999899,0.49999997 0 0 1 1.999997,7 0.49999899,0.49999997 0 0 1 1.499998,6.5 0.49999899,0.49999997 0 0 1 1.999997,6 0.49999899,0.49999997 0 0 1 2.499996,6.5 Z m 0,-3.0000002 A 0.49999899,0.49999997 0 0 1 1.999997,3.9999997 0.49999899,0.49999997 0 0 1 1.499998,3.4999998 a 0.49999899,0.49999997 0 0 1 0.499999,-0.5 0.49999899,0.49999997 0 0 1 0.499999,0.5 z" />
-       <path id="duplicate" style="display:inline;fill:none;stroke:#000000;stroke-width:0.25;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       <path id="duplicate" style="display:inline;fill:none;stroke:#000000;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        d="M 5.499999,2.00001 1.5,8 l 3.999999,10e-6"/>
       </defs>
       </svg>

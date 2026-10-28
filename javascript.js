@@ -1,5 +1,7 @@
 const svg = "http://www.w3.org/2000/svg";
+const input = document.getElementById("input");
 const div = document.getElementById("div");
+const text = document.getElementById("txt");
 function Char(smthidk) {
     if (smthidk.includes("_")) {
         let char=document.getElementById("div").lastChild;
@@ -75,6 +77,97 @@ function Del() {
 }
 
 function Clear() {
-    let div=document.getElementById("div");
     div.innerHTML=null;
+}
+
+function txt() {
+    document.getElementById("kb").style.display="none";
+    text.style.display="block";
+}
+function kb() {
+    document.getElementById("kb").style.display="block";
+    text.style.display="none";
+}
+
+
+input.addEventListener('keydown', function (e) {
+    if (e.key == 'Enter') {
+        Render(input.value);
+    }
+})
+
+// HERE BE DRAGONS.
+
+const vowel_char = "aiu";
+const cons_char  = "ptkbdgmnlrszN";
+const punct = " .;-#0123456789"
+const cons_final = new Set(["n","m","ng","p","t","k","l","N","ng"]);
+const cons_digraph = new Set(["ph","th","kh","bv","dv","gv","sr","zr","ts","dz","ge","ke","po","to","ko","bo","do","go","ng"]);
+
+function Normalize(s) {
+    return s.replaceAll("ą","a~").replaceAll("į","i~").replaceAll("ų","u~").replaceAll("aa","va").replaceAll("ii","vi").replaceAll("uu","vu").replaceAll("a~","aN").replaceAll("i~","iN").replaceAll("u~","uN");
+}
+
+function Render(smth) {
+    Clear();
+    smth=Normalize(smth);
+    const boxes = [];
+    let i = 0;
+    while (i < smth.length) {
+        const pair = smth.slice(i, i + 2);
+        if (cons_digraph.has(pair)) {
+            boxes.push({ text: pair, kind: "C"});
+            i += 2;
+            continue;
+        }
+        const ch = smth[i];
+        boxes.push({ text: ch, kind: KindOf(ch)});
+        i++;
+    }
+
+    for (let i=0;i<boxes.length;i++) {
+        let j=i+1;
+        let k=i-1;
+        if (boxes[i]["kind"]=="?") {
+            return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+        }
+        else if (boxes[i]["kind"]=="C") {
+            if (boxes[i]==boxes[boxes.length-1]) {
+                if ((cons_final.has(boxes[i]["text"]))) {
+                boxes[i]["text"]+="_";
+                }
+                else return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            }
+            else if (boxes[j]["kind"]=="C"||boxes[j]["kind"]=="P") {
+                if ((cons_final.has(boxes[i]["text"]))) {
+                    boxes[i]["text"]+="_";
+                }
+                else return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            }
+            Char(boxes[i]["text"]);
+        }
+        else if (boxes[i]["kind"]=="V") {
+            if (i==0) {
+                Char(`c`);
+                }
+            else if (boxes[k]["kind"]=="P") {
+                    Char(`c`);
+            }
+            if (boxes[i]["text"]=="a") continue;
+            Vowel(boxes[i]["text"]);
+        }
+        else if (boxes[i]["kind"]=="P") {
+            if (i!=boxes.length-1) if (boxes[j]["kind"=="P"]) return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            boxes[i]["text"]=boxes[i]["text"].replace(" ","dotOne").replace("-","dotJoin").replace(";","dotTwo").replace(".","dotThree").replace("#","duplicate");
+            boxes[i]["text"]=boxes[i]["text"].replace("0","nZero").replace("1","nOne").replace("2","nTwo").replace("3","nThree").replace("4","nFour").replace("5","nFive").replace("6","nSix").replace("7","nSeven").replace("8","nEight").replace("9","nNine")
+            Punct(boxes[i]["text"]);
+        }
+    }
+}
+
+function KindOf(ch) {
+    if (vowel_char.includes(ch)) return "V";
+    if (cons_char.includes(ch)) return "C";
+    if (punct.includes(ch)) return "P";
+    return "?";
 }
