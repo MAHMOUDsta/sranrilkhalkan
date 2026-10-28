@@ -96,8 +96,6 @@ input.addEventListener('keydown', function (e) {
     }
 })
 
-// HERE BE DRAGONS.
-
 const vowel_char = "aiu";
 const cons_char  = "ptkbdgmnlrszN";
 const punct = " .;-#0123456789"
@@ -121,7 +119,7 @@ function Render(smth) {
             continue;
         }
         const ch = smth[i];
-        boxes.push({ text: ch, kind: KindOf(ch)});
+        if (ch!=`'`) boxes.push({ text: ch, kind: KindOf(ch)});
         i++;
     }
 
@@ -132,32 +130,29 @@ function Render(smth) {
             return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
         }
         else if (boxes[i]["kind"]=="C") {
-            if (boxes[i]==boxes[boxes.length-1]) {
-                if ((cons_final.has(boxes[i]["text"]))) {
-                boxes[i]["text"]+="_";
-                }
+            if (boxes[j]["kind"]=="C"&&boxes[k]["kind"]=="C") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            if (boxes[i]["text"]=="ng"&&boxes[j]["kind"]=="V"&&boxes[k]["kind"]=="V") {
+                boxes[i]["text"]="n";boxes.splice(j,0,{ text: "g", kind: "C"});
+            }
+            if (boxes[i]==boxes[boxes.length-1]&&boxes[k]["kind"]=="V") {
+                if (cons_final.has(boxes[i]["text"])) boxes[i]["text"]+="_";
                 else return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
             }
-            else if (boxes[j]["kind"]=="C"||boxes[j]["kind"]=="P") {
-                if ((cons_final.has(boxes[i]["text"]))) {
-                    boxes[i]["text"]+="_";
-                }
+            else if (boxes[j]["kind"]=="C"||boxes[j]["kind"]=="P"&&boxes[k]["kind"]=="V") {
+                if (cons_final.has(boxes[i]["text"])) boxes[i]["text"]+="_";
                 else return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
             }
             Char(boxes[i]["text"]);
         }
         else if (boxes[i]["kind"]=="V") {
-            if (i==0) {
-                Char(`c`);
-                }
-            else if (boxes[k]["kind"]=="P") {
-                    Char(`c`);
-            }
+            if (i!=boxes.length-1) if (boxes[j]["kind"]=="V") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            if (i==0) Char(`c`);
+            else if (boxes[k]["kind"]=="P") Char(`c`);
             if (boxes[i]["text"]=="a") continue;
             Vowel(boxes[i]["text"]);
         }
         else if (boxes[i]["kind"]=="P") {
-            if (i!=boxes.length-1) if (boxes[j]["kind"=="P"]) return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
+            if (i!=boxes.length-1) if (boxes[j]["kind"]=="P") return alert(`you have entered an invalid input at ${j}: ${boxes[i]["text"]}`);
             boxes[i]["text"]=boxes[i]["text"].replace(" ","dotOne").replace("-","dotJoin").replace(";","dotTwo").replace(".","dotThree").replace("#","duplicate");
             boxes[i]["text"]=boxes[i]["text"].replace("0","nZero").replace("1","nOne").replace("2","nTwo").replace("3","nThree").replace("4","nFour").replace("5","nFive").replace("6","nSix").replace("7","nSeven").replace("8","nEight").replace("9","nNine")
             Punct(boxes[i]["text"]);
