@@ -100,7 +100,7 @@ const vowel_char = "aiu";
 const cons_char  = "ptkbdgmnlrszN";
 const punct = " .;-#0123456789"
 const cons_final = new Set(["n","m","ng","p","t","k","l","N"]);
-const cons_digraph = new Set(["ph","th","kh","bv","dv","gv","sr","zr","ts","dz","ge","ke","po","to","ko","bo","do","go","ng"]);
+const cons_digraph = new Set(["ph","th","kh","bv","dv","gv","sr","zr","tr","dr","ts","dz","ge","ke","po","to","ko","bo","do","go","ng"]);
 
 function Normalize(s) {
     return s.replaceAll("ą","a~").replaceAll("į","i~").replaceAll("ų","u~").replaceAll("aa","va").replaceAll("ii","vi").replaceAll("uu","vu").replaceAll("a~","aN").replaceAll("i~","iN").replaceAll("u~","uN");
